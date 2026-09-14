@@ -1,0 +1,45 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TRAIN–PSD 팀 전달본</title><style>body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:#202b39;background:#f5f6f8;margin:0;line-height:1.75;font-size:16px}main{max-width:1100px;margin:28px auto;padding:28px 36px;background:white;border:1px solid #dce1e8;border-radius:8px}h1{font-size:30px;margin:0 0 18px}h2{font-size:23px;margin:36px 0 12px;border-bottom:1px solid #dce1e8;padding-bottom:8px}h3{font-size:19px}a{color:#235789}img{max-width:100%;height:auto;display:block;border:1px solid #dce1e8;margin:12px 0}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}th,td{border:1px solid #dce1e8;padding:10px 12px;text-align:left;vertical-align:top}th{background:#eef2f6}pre{background:#f3f5f7;border:1px solid #dce1e8;padding:14px;overflow:auto;font-size:13px}code{font-size:.93em}nav{font-size:14px;margin-bottom:22px;color:#5a6779}li{margin:7px 0}strong{font-weight:700}@media(max-width:700px){main{margin:0;padding:20px 14px;border:0}table{display:block;overflow:auto}h1{font-size:25px}}@media print{body{background:white}main{border:0;margin:0;padding:0}nav{display:none}h2,h3{break-after:avoid}img,tr{break-inside:avoid}}</style></head><body><main><nav><a href="00_먼저읽기.html">처음 읽기</a> · <a href="SETUP.html">설치·업로드</a> · 전체 압축 해제 후 사용</nav><h1 id="trainpsd">TRAIN–PSD 팀 전달본</h1>
+<p><strong>ZIP을 먼저 전부 압축 해제하고 <code>00_먼저읽기.html</code>을 더블클릭한다.</strong> 사진·현재 상태·사용할 코드·다음 작업을 한곳에서 볼 수 있다. 인터넷 없이 읽을 수 있으며 Markdown 원본도 포함했다.</p>
+<ol>
+<li><a href="START_HERE.html">작업 인계 요약</a>을 읽는다.</li>
+<li>새 PC라면 <a href="SETUP.html">설치·업로드 안내</a>를 따른다.</li>
+<li>목적에 맞는 스케치를 선택한다. TRAIN·PSD용을 바꾸어 올리지 않는다.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>폴더</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>train_sketch</code> / <code>psd_sketch</code></td>
+<td>양쪽 무선·표시·가상 문 순서 시험. <strong>실제 모터·서보는 OFF</strong></td>
+</tr>
+<tr>
+<td><code>train_actuator_test</code></td>
+<td>TRAIN 서보 2개·모터 개별 시험</td>
+</tr>
+<tr>
+<td><code>psd_actuator_test</code></td>
+<td>PSD 서보 2개 개별 시험</td>
+</tr>
+<tr>
+<td><code>train_hall_test</code></td>
+<td>홀센서 2개 LCD 시험. 추가 부품을 찾을 때까지 <strong>보류</strong></td>
+</tr>
+<tr>
+<td><code>handoff_images</code></td>
+<td>부품 이름표 사진과 원본</td>
+</tr>
+<tr>
+<td><code>tests</code></td>
+<td>개발자용 모의 검사. <strong>보드에 업로드하지 않는다</strong></td>
+</tr>
+</tbody>
+</table>
+<p>현재는 주요 부품의 기본 동작 확인 단계다. 실제 문 센서는 가상이며, 자동 구동 통합·실제 기구·최종 전원 검증은 아직 남아 있다. 다음은 서보 4개를 각각 보정하는 작업이다.</p>
+<p>필요할 때만 <a href="ACTUATOR_TEST.html">서보·모터 시험</a>, <a href="INTEGRATED_TEST.html">가상 순서·오류 복구 시험</a>, <a href="HARDWARE_NOTES.html">부품별 보정 전제</a>를 참고한다. HTML과 MD는 같은 내용이며 MD를 수정해도 HTML이 자동 갱신되지는 않는다.</p>
+<p>전달용 문서 경로만 정리했고 스케치 소스는 작업본과 동일하다. 오래된 배선 시험 스케치·이전 ZIP·빌드 파일·임시 파일·개인 PC 설정은 제외했다. 파일별 확인값은 <code>SHA256SUMS.txt</code>에 있다.</p>
+</main></body></html>

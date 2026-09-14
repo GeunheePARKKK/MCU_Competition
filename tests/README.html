@@ -1,0 +1,30 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>개발자용 모의 검사 — 보드 업로드 금지</title><style>body{font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:#202b39;background:#f5f6f8;margin:0;line-height:1.75;font-size:16px}main{max-width:1100px;margin:28px auto;padding:28px 36px;background:white;border:1px solid #dce1e8;border-radius:8px}h1{font-size:30px;margin:0 0 18px}h2{font-size:23px;margin:36px 0 12px;border-bottom:1px solid #dce1e8;padding-bottom:8px}h3{font-size:19px}a{color:#235789}img{max-width:100%;height:auto;display:block;border:1px solid #dce1e8;margin:12px 0}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}th,td{border:1px solid #dce1e8;padding:10px 12px;text-align:left;vertical-align:top}th{background:#eef2f6}pre{background:#f3f5f7;border:1px solid #dce1e8;padding:14px;overflow:auto;font-size:13px}code{font-size:.93em}nav{font-size:14px;margin-bottom:22px;color:#5a6779}li{margin:7px 0}strong{font-weight:700}@media(max-width:700px){main{margin:0;padding:20px 14px;border:0}table{display:block;overflow:auto}h1{font-size:25px}}@media print{body{background:white}main{border:0;margin:0;padding:0}nav{display:none}h2,h3{break-after:avoid}img,tr{break-inside:avoid}}</style></head><body><main><nav><a href="../00_먼저읽기.html">처음 읽기</a> · <a href="../SETUP.html">설치·업로드</a> · 전체 압축 해제 후 사용</nav><h1 id="section">개발자용 모의 검사 — 보드 업로드 금지</h1>
+<p>처음 부품을 시험하는 팀원은 이 폴더를 건너뛰고 상위 폴더의 인계 요약을 읽는다. 검사용 무선 드라이버를 포함하므로 이 안의 스케치를 실물에 업로드하지 않는다.</p>
+<p>기존 환경은 Arduino AVR 1.8.6, LiquidCrystal I2C 1.1.2, AVR8js 0.21.1이다. Arduino CLI와 Node.js는 별도 설치하고 명령을 실행할 수 있게 준비한다. 다음 명령은 <strong>검증만 하며 업로드하지 않는다</strong>.</p>
+<p>전달본 루트에서 PowerShell로 실행한다.</p>
+<pre><code class="language-powershell">$projectDir = (Get-Location).Path
+$checkDir = Join-Path $projectDir 'local_checks'
+$uiInclude = (Join-Path $projectDir 'psd_sketch').Replace('\','/')
+
+&amp; '.\tests\sync_tests.ps1'
+arduino-cli compile --fqbn arduino:avr:uno --build-path &quot;$checkDir/fsm&quot; '.\tests\fsm_test'
+arduino-cli compile --fqbn arduino:avr:uno --build-property &quot;compiler.cpp.extra_flags=-I$uiInclude&quot; --build-path &quot;$checkDir/ui&quot; '.\tests\ui_test'
+arduino-cli compile --fqbn arduino:avr:uno --build-property &quot;compiler.cpp.extra_flags=-I$uiInclude&quot; --build-path &quot;$checkDir/ui_gpio&quot; '.\tests\ui_gpio_test'
+
+npm install --prefix &quot;$checkDir/tools&quot; --no-save avr8js@0.21.1
+$env:AVR8JS_PATH = Join-Path $checkDir 'tools/node_modules/avr8js'
+node '.\tests\run_avr.cjs' &quot;$checkDir/fsm/fsm_test.ino.hex&quot;
+node '.\tests\run_avr.cjs' &quot;$checkDir/ui/ui_test.ino.hex&quot;
+node '.\tests\run_ui_gpio.cjs' &quot;$checkDir/ui_gpio/ui_gpio_test.ino.hex&quot;
+</code></pre>
+<p>기존 기록: FSM 456개, UI 489개, 표시 GPIO 19프레임 통과. 이번 패키징에서는 소스 동일성과 ZIP 압축 해제를 검사했으며, 이 검사들을 다시 실행한 것은 아니다.</p>
+<p>서보·모터와 홀센서 시험은 해당 스케치를 먼저 컴파일한 뒤 생성한 HEX로 검사한다.</p>
+<pre><code class="language-powershell">arduino-cli compile --fqbn arduino:avr:uno --build-path &quot;$checkDir/train_actuator&quot; '.\train_actuator_test'
+arduino-cli compile --fqbn arduino:avr:uno --build-path &quot;$checkDir/psd_actuator&quot; '.\psd_actuator_test'
+arduino-cli compile --fqbn arduino:avr:uno --build-path &quot;$checkDir/hall&quot; '.\train_hall_test'
+node '.\tests\run_actuator_gpio.cjs' &quot;$checkDir/train_actuator/train_actuator_test.ino.hex&quot; train
+node '.\tests\run_actuator_gpio.cjs' &quot;$checkDir/psd_actuator/psd_actuator_test.ino.hex&quot; psd
+node '.\tests\run_dual_hall_gpio.cjs' &quot;$checkDir/hall/train_hall_test.ino.hex&quot;
+</code></pre>
+<p>모의 검사는 실제 자기장·무선 잡음·전원·문 위치·서보 각도·제동 거리를 검증하지 않는다. 예전 LED 극성의 배선 시험과 관련 검사는 전달본에서 제외했다.</p>
+</main></body></html>
